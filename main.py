@@ -4,16 +4,18 @@ import matplotlib.pyplot as plt
 plt.rcParams['figure.figsize'] = [16,12]
 plt.rcParams.update({'font.size' : 18})
 
+# TODO: -make t, dt and f adjustable, make indices threshold adjustable
+
 dt = 0.001
-t = np.arange(0,1,dt)
-f = np.sin(2*np.pi*50*t) + np.sin(2*np.pi*120*t)  # sum of 2 frequencies
+t = np.arange(0,1,dt)                             # range, time , x-axis
+f = np.sin(2*np.pi*50*t) + np.sin(2*np.pi*120*t)  # sum of 2 frequencies, y-axis
 f_clean = f
-f = f + 2.5*np.random.randn(len(t)) # add random noise to the signal
+f = f + 2.5*np.random.randn(len(t))               # add random noise to the signal
 
 
 # Compute the Fast Fourier Transform (FFT)
-n = len(t)
-fhat = np.fft.fft(f,n)
+n = len(t)                                        # amount of data points
+fhat = np.fft.fft(f,n)                            # compute FFT of (f,n)
 PSD = fhat * np.conj(fhat)/n
 freq = (1/(dt*n)) * np.arange(n)
 L = np.arange(1,np.floor(n/2),dtype='int')
@@ -21,7 +23,7 @@ L = np.arange(1,np.floor(n/2),dtype='int')
 # Use the PSD to filter out noise
 indices = PSD > 100         # Find all frequencies with large power
 PSDclean = PSD * indices    # Zero out the frequencies not large enough
-fhat = indices * fhat       # Zero out small Fourier coefficients in Y
+fhat = indices * fhat       # Zero out small Fourier coefficients
 ffilt = np.fft.ifft(fhat)   # Inverse FFT for filtered signal
 
 # Plots 
