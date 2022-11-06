@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, url_for
+from flask_restful import Api,resource
 import numpy as np
 import array
 
@@ -32,8 +33,6 @@ def index_post():
     data = { 'time': t, 'f': f }
 
     return render_template('index.html', data=data)
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
